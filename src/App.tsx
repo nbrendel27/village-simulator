@@ -1,33 +1,25 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
+import ResourcesView from './components/ResourcesView'
+import Map from './components/Map'
+import Resource from './models/Resource';
+import Improvement from './models/Improvement';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [people, setPeople] = useState<Resource>({name: "People", amount: 5});
+  const [papyrus, setPapyrus] = useState<Resource>({name: "Papyrus", amount: 5});
+  const [fish, setFish] = useState<Resource>({name: "Fish", amount: 5});
+  const [bricks, setBricks] = useState<Resource>({name: "Bricks", amount: 5});
+  const [water, setWater] = useState<Resource>({name: "Water", amount: 5});
+
+  const [improvements, setImprovements] = useState<Improvement[]>(Array.apply(null, Array(25)).map(() => {return {type:"empty", level: 0}}))
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Map improvements={improvements}/>
+      <ResourcesView people={people} papyrus={papyrus} fish={fish} bricks={bricks} water={water}/>
     </>
   )
 }
