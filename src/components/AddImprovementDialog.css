@@ -1,9 +1,5 @@
 .AddImprovementDialog {
-    position: fixed;
-    background-color: bisque;
-    border: 2px solid black;
-}
-
-.AddImprovementDialog:not() {
-    background-color: blue;
+  position: fixed;
+  background-color: bisque;
+  border: 2px solid black;
 }
