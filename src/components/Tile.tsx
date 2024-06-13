@@ -1,16 +1,12 @@
-import Improvement from '../models/Improvement';
-import './Tile.css'
+import Improvement from "../models/Improvement";
+import "./Tile.css";
 
 interface Props {
-    improvement: Improvement;
+  improvement: Improvement;
 }
 
-const Tile = ({improvement}:Props) => {
-  return (
-    <div className='Tile'>
-        
-    </div>
-  )
+const Tile = ({ improvement }: Props) => {
+  return <div className="Tile"></div>;
 };
 
 export default Tile;

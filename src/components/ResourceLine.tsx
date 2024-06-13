@@ -1,14 +1,25 @@
-import Resource from '../models/Resource';
-import './ResourceLine.css'
+import Resource from "../models/Resource";
+import "./ResourceLine.css";
 
 interface Props {
-    resource: Resource;
+  resource: Resource;
 }
 
 const ResourceLine = (props: Props) => {
   return (
-    <tr><td>{props.resource.name}</td><td>{props.resource.amount}</td></tr>
-  )
+    <tr className="ResourceLine">
+      <td>
+        <img
+          src={
+            "./src/assets/" + props.resource.name.toLocaleLowerCase() + ".png"
+          }
+          alt=""
+        />
+        {props.resource.name}
+      </td>
+      <td>{props.resource.amount}</td>
+    </tr>
+  );
 };
 
 export default ResourceLine;
