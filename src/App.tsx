@@ -50,7 +50,7 @@ function App() {
         amount: water.amount + amount,
       });
     }
-  }
+  };
 
   const addImprovement = (index: number, improvement: Type): void => {
     setImprovements([
@@ -58,10 +58,10 @@ function App() {
       { _id: index, type: improvement.type, level: 1 },
       ...improvements.slice(index + 1),
     ]);
-    
-    setResource(improvement.benefit.resource, improvement.benefit.amount)
+
+    setResource(improvement.benefit.resource, improvement.benefit.amount);
     improvement.cost.forEach((c) => {
-      setResource(c.resource, (c.amount * -1))
+      setResource(c.resource, c.amount * -1);
     });
   };
 
@@ -78,17 +78,31 @@ function App() {
       return water.amount;
     }
     return 0;
-  }
+  };
 
-  const checkImprovement = (improvement: Type, which: string, level?: number): boolean => {
-    if (which==="add" && improvement.cost.find((c) => {
+  const checkImprovement = (
+    improvement: Type,
+    which: string,
+    level?: number
+  ): boolean => {
+    if (
+      which === "add" &&
+      improvement.cost.find((c) => {
         return c.amount > resourceAmount(c.resource);
       })
     ) {
       return true;
-    } else if (which === "down" && improvement.benefit.amount > resourceAmount(improvement.benefit.resource)) {
+    } else if (
+      which === "down" &&
+      improvement.benefit.amount > resourceAmount(improvement.benefit.resource)
+    ) {
       return true;
-    } else if(which === "remove" && level && (improvement.benefit.amount*level) > resourceAmount(improvement.benefit.resource)) {
+    } else if (
+      which === "remove" &&
+      level &&
+      improvement.benefit.amount * level >
+        resourceAmount(improvement.benefit.resource)
+    ) {
       return true;
     }
     return false;
@@ -99,31 +113,44 @@ function App() {
     improvement: Type,
     action: string
   ): void => {
-    if(action === "upgrade") {
+    if (action === "upgrade") {
       setImprovements([
         ...improvements.slice(0, index),
-        { _id: index, type: improvement.type, level: improvements[index].level+1 },
+        {
+          _id: index,
+          type: improvement.type,
+          level: improvements[index].level + 1,
+        },
         ...improvements.slice(index + 1),
       ]);
-      setResource(improvement.benefit.resource, improvement.benefit.amount)
+      setResource(improvement.benefit.resource, improvement.benefit.amount);
       improvement.cost.forEach((c) => {
-        setResource(c.resource, (c.amount * -1))
+        setResource(c.resource, c.amount * -1);
       });
-    }else if(action === "downgrade" && improvements[index].level > 1) {
+    } else if (action === "downgrade" && improvements[index].level > 1) {
       setImprovements([
         ...improvements.slice(0, index),
-        { _id: index, type: improvement.type, level: improvements[index].level-1 },
+        {
+          _id: index,
+          type: improvement.type,
+          level: improvements[index].level - 1,
+        },
         ...improvements.slice(index + 1),
       ]);
-      setResource(improvement.benefit.resource, (improvement.benefit.amount * -1))
+      setResource(
+        improvement.benefit.resource,
+        improvement.benefit.amount * -1
+      );
       improvement.cost.forEach((c) => {
-        setResource(c.resource, (c.amount))
+        setResource(c.resource, c.amount);
       });
     } else {
-      
-      setResource(improvement.benefit.resource, ((improvement.benefit.amount * -1)*improvements[index].level))
+      setResource(
+        improvement.benefit.resource,
+        improvement.benefit.amount * -1 * improvements[index].level
+      );
       improvement.cost.forEach((c) => {
-        setResource(c.resource, (c.amount * improvements[index].level))
+        setResource(c.resource, c.amount * improvements[index].level);
       });
       setImprovements([
         ...improvements.slice(0, index),
@@ -135,19 +162,26 @@ function App() {
 
   return (
     <>
-      <Map
-        improvements={improvements}
-        addImprovement={addImprovement}
-        editImprovement={editImprovement}
-        checkImprovement={checkImprovement}
-      />
-      <ResourcesView
-        people={people}
-        papyrus={papyrus}
-        fish={fish}
-        bricks={bricks}
-        water={water}
-      />
+      <div className="App">
+        <header>
+          <h1>Ancient Village Simulator</h1>
+        </header>
+        <main>
+          <ResourcesView
+            people={people}
+            papyrus={papyrus}
+            fish={fish}
+            bricks={bricks}
+            water={water}
+          />
+          <Map
+            improvements={improvements}
+            addImprovement={addImprovement}
+            editImprovement={editImprovement}
+            checkImprovement={checkImprovement}
+          />
+        </main>
+      </div>
     </>
   );
 }

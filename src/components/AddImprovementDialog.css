@@ -1,5 +1,10 @@
 .AddImprovementDialog {
-  position: fixed;
+  position: absolute;
   background-color: bisque;
   border: 2px solid black;
+  width: 250px;
+  /* top: 220px;
+  left: 50%;
+  transform: translate(-50%);
+} */
 }

@@ -1,5 +1,8 @@
 .EditImprovementDialog {
-  position: fixed;
+  position: absolute;
   background-color: bisque;
   border: 2px solid black;
+  top: 220px;
+  left: 50%;
+  transform: translate(-50%);
 }

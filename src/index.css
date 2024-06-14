@@ -1,0 +1,12 @@
+/* resets */
+body,
+h1 {
+  margin: 0;
+  padding: 0;
+}
+
+/* styles */
+body {
+  font-family: "Space Mono", monospace;
+  min-height: 100vh;
+}

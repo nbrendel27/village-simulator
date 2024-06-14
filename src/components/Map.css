@@ -1,5 +1,6 @@
 .Map {
-    display: flex;
-    flex-wrap: wrap;
-    width: 250px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 250px;
+  position: relative;
 }
