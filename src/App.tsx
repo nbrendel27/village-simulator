@@ -5,7 +5,7 @@ import ResourcesView from "./components/ResourcesView";
 import Map from "./components/Map";
 import Resource from "./models/Resource";
 import Improvement from "./models/Improvement";
-import { Type } from "./models/ImprovementsArray";
+import { ImprovementsArray, Type } from "./models/ImprovementsArray";
 
 function App() {
   const [people, setPeople] = useState<Resource>({ name: "People", amount: 5 });
@@ -13,7 +13,7 @@ function App() {
     name: "Papyrus",
     amount: 5,
   });
-  const [fish, setFish] = useState<Resource>({ name: "Fish", amount: 5 });
+  const [fish, setFish] = useState<Resource>({ name: "Fish", amount: 1 });
   const [bricks, setBricks] = useState<Resource>({ name: "Bricks", amount: 5 });
   const [water, setWater] = useState<Resource>({ name: "Water", amount: 5 });
 
@@ -91,8 +91,12 @@ function App() {
         return c.amount > resourceAmount(c.resource);
       })
     ) {
+      
       return true;
-    } else if (
+    }else if(which === "add" && level && level >= 3) {
+        return true;
+    }
+    else if (
       which === "down" &&
       improvement.benefit.amount > resourceAmount(improvement.benefit.resource)
     ) {
@@ -142,7 +146,7 @@ function App() {
         improvement.benefit.amount * -1
       );
       improvement.cost.forEach((c) => {
-        setResource(c.resource, c.amount);
+        setResource(c.resource, c.amount-1);
       });
     } else {
       setResource(
@@ -150,7 +154,7 @@ function App() {
         improvement.benefit.amount * -1 * improvements[index].level
       );
       improvement.cost.forEach((c) => {
-        setResource(c.resource, c.amount * improvements[index].level);
+        setResource(c.resource, (c.amount-1) * improvements[index].level);
       });
       setImprovements([
         ...improvements.slice(0, index),
@@ -159,6 +163,17 @@ function App() {
       ]);
     }
   };
+
+  const checkLose = () => {
+    if(ImprovementsArray.find((move) => {
+      return move.benefit.amount <= resourceAmount(move.benefit.resource) || move.cost.find((c) => {
+        return c.amount <= resourceAmount(c.resource);
+      })
+    })) {
+      return true;
+    }
+    return false;
+  }
 
   return (
     <>
@@ -180,6 +195,7 @@ function App() {
             editImprovement={editImprovement}
             checkImprovement={checkImprovement}
           />
+          <div style={{display: checkLose() ? "none":"block"}} className="lose-message">You Lost!</div>
         </main>
       </div>
     </>

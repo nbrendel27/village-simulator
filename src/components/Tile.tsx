@@ -51,11 +51,14 @@ const Tile = ({
         }
       }}
     >
-      <img
+      
+      <div className="image-container">
+        <img
         src={"./src/assets/" + improvement.type.toLocaleLowerCase() + ".png"}
         alt=""
-      />
-      <div className="level" style={{display: improvement.level > 1 ? "block":"none"}}>{improvement.level}</div>
+        />
+        <div className="level" style={{display: improvement.level > 1 ? "block":"none"}}>{improvement.level}</div>
+      </div>
       <div className="Add" style={{ display: add ? "block" : "none" }}>
         <AddImprovementDialog
           index={improvement._id}

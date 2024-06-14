@@ -27,7 +27,7 @@ const EditImprovementDialog = ({
   const element: Type | undefined = ImprovementsArray.find((item) => {
     return item.type === improvement.type;
   });
-  const canUpgrade = improvement.level > 0 ? checkImprovement(element as Type, "add") : true;
+  const canUpgrade = improvement.level > 0 ? checkImprovement(element as Type, "add", improvement.level) : true;
   const canDowngrade = improvement.level > 0 ? checkImprovement(element as Type, "down") : true;
   const canRemove = improvement.level > 0 ? checkImprovement(element as Type, "remove", improvement.level) : true;
 

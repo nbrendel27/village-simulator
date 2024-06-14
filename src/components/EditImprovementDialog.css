@@ -2,7 +2,22 @@
   position: absolute;
   background-color: bisque;
   border: 2px solid black;
-  top: 220px;
-  left: 50%;
-  transform: translate(-50%);
+  width: 250px;
+  top: 275px;
+  right: 50%;
+  box-sizing: border-box;
+  transform: translateX(50%);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.EditImprovementDialog button {
+  margin: 5px 0;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.EditImprovementDialog p {
+  text-align: center;
 }
