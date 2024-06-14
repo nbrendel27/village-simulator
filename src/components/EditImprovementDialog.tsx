@@ -8,7 +8,7 @@ interface Props {
   endTurn(): void;
   hideDialog(): void;
   editImprovement(index: number, improvement: Type, action: string): void;
-  checkImprovement(improvement: Type): boolean;
+  checkImprovement(improvement: Type, which: string, level?: number): boolean;
 }
 
 const EditImprovementDialog = ({
@@ -27,6 +27,9 @@ const EditImprovementDialog = ({
   const element: Type | undefined = ImprovementsArray.find((item) => {
     return item.type === improvement.type;
   });
+  const canUpgrade = improvement.level > 0 ? checkImprovement(element as Type, "add") : true;
+  const canDowngrade = improvement.level > 0 ? checkImprovement(element as Type, "down") : true;
+  const canRemove = improvement.level > 0 ? checkImprovement(element as Type, "remove", improvement.level) : true;
 
   return (
     <form className="EditImprovementDialog">
@@ -60,9 +63,21 @@ const EditImprovementDialog = ({
       >
         Cancel
       </button>
-      <button>Upgrade</button>
-      <button>Downgrade</button>
-      <button>Remove</button>
+      <button disabled={canUpgrade} type="button" onClick={() => {
+        editImprovement(improvement._id, element as Type, "upgrade")
+        endTurn();
+        hideDialog();
+        }}>Upgrade</button>
+      <button disabled={canDowngrade} type="button" onClick={() => {
+        editImprovement(improvement._id, element as Type, "downgrade")
+        endTurn();
+        hideDialog();
+        }}>Downgrade</button>
+      <button disabled={canRemove} type="button" onClick={() => {
+        editImprovement(improvement._id, element as Type, "remove")
+        endTurn();
+        hideDialog();
+        }}>Remove</button>
     </form>
   );
 };

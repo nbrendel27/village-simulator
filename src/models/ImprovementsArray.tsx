@@ -14,7 +14,7 @@ export const ImprovementsArray: Type[] = [
     type: "Pyramid",
     benefit: { resource: "People", amount: 5 },
     cost: [
-      { resource: "Brick", amount: 5 },
+      { resource: "Bricks", amount: 5 },
       { resource: "Papyrus", amount: 5 },
       { resource: "Water", amount: 5 },
       { resource: "Fish", amount: 1 },

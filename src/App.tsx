@@ -23,70 +23,72 @@ function App() {
     })
   );
 
+  const setResource = (name: string, amount: number) => {
+    if (name.toLocaleLowerCase() === "people") {
+      setPeople({
+        name: people.name,
+        amount: people.amount + amount,
+      });
+    } else if (name.toLocaleLowerCase() === "papyrus") {
+      setPapyrus({
+        name: papyrus.name,
+        amount: papyrus.amount + amount,
+      });
+    } else if (name.toLocaleLowerCase() === "fish") {
+      setFish({
+        name: fish.name,
+        amount: fish.amount + amount,
+      });
+    } else if (name.toLocaleLowerCase() === "bricks") {
+      setBricks({
+        name: bricks.name,
+        amount: bricks.amount + amount,
+      });
+    } else if (name.toLocaleLowerCase() === "water") {
+      setWater({
+        name: water.name,
+        amount: water.amount + amount,
+      });
+    }
+  }
+
   const addImprovement = (index: number, improvement: Type): void => {
     setImprovements([
       ...improvements.slice(0, index),
       { _id: index, type: improvement.type, level: 1 },
       ...improvements.slice(index + 1),
     ]);
-    if (improvement.benefit.resource.toLocaleLowerCase() === "people") {
-      setPeople({
-        name: people.name,
-        amount: people.amount + improvement.benefit.amount,
-      });
-    } else if (improvement.benefit.resource.toLocaleLowerCase() === "papyrus") {
-      setPapyrus({
-        name: papyrus.name,
-        amount: papyrus.amount + improvement.benefit.amount,
-      });
-    } else if (improvement.benefit.resource.toLocaleLowerCase() === "fish") {
-      setFish({
-        name: fish.name,
-        amount: fish.amount + improvement.benefit.amount,
-      });
-    } else if (improvement.benefit.resource.toLocaleLowerCase() === "bricks") {
-      setBricks({
-        name: bricks.name,
-        amount: bricks.amount + improvement.benefit.amount,
-      });
-    } else if (improvement.benefit.resource.toLocaleLowerCase() === "water") {
-      setWater({
-        name: water.name,
-        amount: water.amount + improvement.benefit.amount,
-      });
-    }
+    
+    setResource(improvement.benefit.resource, improvement.benefit.amount)
     improvement.cost.forEach((c) => {
-      if (c.resource.toLocaleLowerCase() === "people") {
-        setPeople({ name: people.name, amount: people.amount - c.amount });
-      } else if (c.resource.toLocaleLowerCase() === "papyrus") {
-        setPapyrus({ name: papyrus.name, amount: papyrus.amount - c.amount });
-      } else if (c.resource.toLocaleLowerCase() === "fish") {
-        setFish({ name: fish.name, amount: fish.amount - c.amount });
-      } else if (c.resource.toLocaleLowerCase() === "bricks") {
-        setBricks({ name: bricks.name, amount: bricks.amount - c.amount });
-      } else if (c.resource.toLocaleLowerCase() === "water") {
-        setWater({ name: water.name, amount: water.amount - c.amount });
-      }
+      setResource(c.resource, (c.amount * -1))
     });
   };
 
-  const checkImprovement = (improvement: Type): boolean => {
-    if (
-      improvement.cost.find((c) => {
-        if (c.resource.toLocaleLowerCase() === "people") {
-          return c.amount > people.amount;
-        } else if (c.resource.toLocaleLowerCase() === "papyrus") {
-          return c.amount > papyrus.amount;
-        } else if (c.resource.toLocaleLowerCase() === "fish") {
-          return c.amount > fish.amount;
-        } else if (c.resource.toLocaleLowerCase() === "bricks") {
-          return c.amount > bricks.amount;
-        } else if (c.resource.toLocaleLowerCase() === "water") {
-          return c.amount > water.amount;
-        }
+  const resourceAmount = (name: string): number => {
+    if (name.toLocaleLowerCase() === "people") {
+      return people.amount;
+    } else if (name.toLocaleLowerCase() === "papyrus") {
+      return papyrus.amount;
+    } else if (name.toLocaleLowerCase() === "fish") {
+      return fish.amount;
+    } else if (name.toLocaleLowerCase() === "bricks") {
+      return bricks.amount;
+    } else if (name.toLocaleLowerCase() === "water") {
+      return water.amount;
+    }
+    return 0;
+  }
+
+  const checkImprovement = (improvement: Type, which: string, level?: number): boolean => {
+    if (which==="add" && improvement.cost.find((c) => {
+        return c.amount > resourceAmount(c.resource);
       })
     ) {
-      // console.log(improvement)
+      return true;
+    } else if (which === "down" && improvement.benefit.amount > resourceAmount(improvement.benefit.resource)) {
+      return true;
+    } else if(which === "remove" && level && (improvement.benefit.amount*level) > resourceAmount(improvement.benefit.resource)) {
       return true;
     }
     return false;
@@ -96,7 +98,40 @@ function App() {
     index: number,
     improvement: Type,
     action: string
-  ): void => {};
+  ): void => {
+    if(action === "upgrade") {
+      setImprovements([
+        ...improvements.slice(0, index),
+        { _id: index, type: improvement.type, level: improvements[index].level+1 },
+        ...improvements.slice(index + 1),
+      ]);
+      setResource(improvement.benefit.resource, improvement.benefit.amount)
+      improvement.cost.forEach((c) => {
+        setResource(c.resource, (c.amount * -1))
+      });
+    }else if(action === "downgrade" && improvements[index].level > 1) {
+      setImprovements([
+        ...improvements.slice(0, index),
+        { _id: index, type: improvement.type, level: improvements[index].level-1 },
+        ...improvements.slice(index + 1),
+      ]);
+      setResource(improvement.benefit.resource, (improvement.benefit.amount * -1))
+      improvement.cost.forEach((c) => {
+        setResource(c.resource, (c.amount))
+      });
+    } else {
+      
+      setResource(improvement.benefit.resource, ((improvement.benefit.amount * -1)*improvements[index].level))
+      improvement.cost.forEach((c) => {
+        setResource(c.resource, (c.amount * improvements[index].level))
+      });
+      setImprovements([
+        ...improvements.slice(0, index),
+        { _id: index, type: "empty", level: 0 },
+        ...improvements.slice(index + 1),
+      ]);
+    }
+  };
 
   return (
     <>

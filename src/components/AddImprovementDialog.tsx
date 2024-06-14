@@ -7,7 +7,7 @@ interface Props {
   endTurn(): void;
   hideDialog(): void;
   addImprovement(index: number, improvement: Type): void;
-  checkImprovement(improvement: Type): boolean
+  checkImprovement(improvement: Type, which:string): boolean
 }
 
 const AddImprovementDialog = ({index, endTurn, hideDialog, addImprovement, checkImprovement}: Props) => {
@@ -32,8 +32,8 @@ const AddImprovementDialog = ({index, endTurn, hideDialog, addImprovement, check
             })]);
         }}
       >
-        <option value="aqueduct">Pyramid</option>
-        <option value="pyramid">Aqueduct</option>
+        <option value="pyramid">Pyramid</option>
+        <option value="aqueduct">Aqueduct</option>
         <option value="sphinks">Sphinks</option>
         <option value="market">Market</option>
         <option value="masonry">Masonry</option>
@@ -48,7 +48,7 @@ const AddImprovementDialog = ({index, endTurn, hideDialog, addImprovement, check
         endTurn();
         hideDialog();
       }}>Cancel</button>
-      <button id="add" disabled={checkImprovement(type)}>Add</button>
+      <button id="add" disabled={checkImprovement(type, "add")}>Add</button>
     </form>
   );
 };

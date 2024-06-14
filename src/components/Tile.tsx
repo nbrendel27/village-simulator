@@ -12,7 +12,7 @@ interface Props {
   endTurn(): void;
   addImprovement(index: number, improvement: Type): void;
   editImprovement(index: number, improvement: Type, action: string): void;
-  checkImprovement(improvement: Type): boolean;
+  checkImprovement(improvement: Type, which: string, level?: number): boolean;
 }
 
 const Tile = ({
@@ -55,6 +55,7 @@ const Tile = ({
         src={"./src/assets/" + improvement.type.toLocaleLowerCase() + ".png"}
         alt=""
       />
+      <div className="level" style={{display: improvement.level > 1 ? "block":"none"}}>{improvement.level}</div>
       <div className="Add" style={{ display: add ? "block" : "none" }}>
         <AddImprovementDialog
           index={improvement._id}
