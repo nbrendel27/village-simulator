@@ -8,6 +8,7 @@ import Improvement from "./models/Improvement";
 import { ImprovementsArray, Type } from "./models/ImprovementsArray";
 import { TerrainImprovements } from "./models/Terrain";
 import Rules from "./components/Rules";
+import AlienInvasion from "./components/AlienInvasion";
 
 const Terrains = [
   "Forest",
@@ -17,6 +18,14 @@ const Terrains = [
   "Coast",
   "Sand Dunes",
 ];
+
+const Resources = [
+  "People",
+  "Papyrus",
+  "Fish",
+  "Bricks",
+  "Water"
+]
 
 function App() {
   const [people, setPeople] = useState<Resource>({ name: "People", amount: 5 });
@@ -236,6 +245,7 @@ function App() {
           <h1>Ancient Village Simulator</h1>
         </header>
         <main>
+          <AlienInvasion setResource={setResource} resourceAmount = {resourceAmount} resources={Resources}/>
           <Rules />
           <ResourcesView
             people={people}
