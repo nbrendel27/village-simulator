@@ -8,7 +8,7 @@ interface Props {
   endTurn(): void;
   hideDialog(): void;
   editImprovement(index: number, improvement: Type, action: string): void;
-  checkImprovement(improvement: Type, which: string, level?: number): boolean;
+  checkImprovement(improvement: Type, which: string, level?: number, index?: number): boolean;
   terrain: string;
 }
 
@@ -29,15 +29,15 @@ const EditImprovementDialog = ({
   const element: Type | undefined = ImprovementsArray.find((item) => {
     return item.type === improvement.type;
   });
-  const canUpgrade =
+  const cantUpgrade =
     improvement.level > 0
-      ? checkImprovement(element as Type, "add", improvement.level)
+      ? checkImprovement(element as Type, "add", improvement.level, improvement._id)
       : true;
-  const canDowngrade =
-    improvement.level > 0 ? checkImprovement(element as Type, "down") : true;
-  const canRemove =
+  const cantDowngrade =
+    improvement.level > 0 ? checkImprovement(element as Type, "down", improvement.level, improvement._id) : true;
+  const cantRemove =
     improvement.level > 0
-      ? checkImprovement(element as Type, "remove", improvement.level)
+      ? checkImprovement(element as Type, "remove", improvement.level, improvement._id)
       : true;
 
   // console.log(checkImprovement(element as Type, "add", improvement.level));
@@ -77,7 +77,7 @@ const EditImprovementDialog = ({
         Cancel
       </button>
       <button
-        disabled={canUpgrade}
+        disabled={cantUpgrade}
         type="button"
         onClick={() => {
           editImprovement(improvement._id, element as Type, "upgrade");
@@ -88,7 +88,7 @@ const EditImprovementDialog = ({
         Upgrade
       </button>
       <button
-        disabled={canDowngrade}
+        disabled={cantDowngrade}
         type="button"
         onClick={() => {
           editImprovement(improvement._id, element as Type, "downgrade");
@@ -99,7 +99,7 @@ const EditImprovementDialog = ({
         Downgrade
       </button>
       <button
-        disabled={canRemove}
+        disabled={cantRemove}
         type="button"
         onClick={() => {
           editImprovement(improvement._id, element as Type, "remove");

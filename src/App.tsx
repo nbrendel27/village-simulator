@@ -211,6 +211,22 @@ function App() {
     }
     return false;
   };
+  // const checkLose = () => {
+  //   return !improvements.find((tile) => {
+  //     if(tile.type === "empty") {
+  //         const debug = TerrainImprovements.find((t) => t.name === tile.terrain)?.improvements.find((j) => {
+  //           const i = ImprovementsArray.findIndex((type) => type.type.toLocaleLowerCase() === j.toLocaleLowerCase())
+  //           return !(checkImprovement(ImprovementsArray[i], "add", tile.level, tile._id) && checkImprovement(ImprovementsArray[i], "down", tile.level, tile._id) && checkImprovement(ImprovementsArray[i], "remove", tile.level, tile._id))
+  //         })
+  //         console.log(tile._id)
+  //         console.log(debug);
+  //         return debug;
+  //     }else {
+  //       const imp = ImprovementsArray.findIndex((type) => type.type === tile.type)
+  //       return !checkImprovement(ImprovementsArray[imp], "add", tile.level, tile._id) || !checkImprovement(ImprovementsArray[imp], "down", tile.level, tile._id) || !checkImprovement(ImprovementsArray[imp], "remove", tile.level, tile._id);
+  //     }
+  //   })
+  // }
 
   return (
     <>
@@ -232,14 +248,15 @@ function App() {
             editImprovement={editImprovement}
             checkImprovement={checkImprovement}
           />
-          {/* <div
-            style={{ display: checkLose() ? "none" : "block" }}
+          <div
+            style={{ display: checkLose() ? "block" : "none" }}
             className="lose-message"
           >
-            try again
-            {/* <p>Try again</p>
-            <button>Try again</button> */}
-          {/* </div> */}
+            <form>
+              <p>Try again</p>
+              <button>Try again</button>
+            </form>
+          </div>
         </main>
       </div>
     </>
