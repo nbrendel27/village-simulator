@@ -7,11 +7,23 @@ interface Props {
   endTurn(): void;
   hideDialog(): void;
   addImprovement(index: number, improvement: Type): void;
-  checkImprovement(improvement: Type, which:string, level?:number, index?: number): boolean
+  checkImprovement(
+    improvement: Type,
+    which: string,
+    level?: number,
+    index?: number
+  ): boolean;
   terrain: string;
 }
 
-const AddImprovementDialog = ({index, endTurn, hideDialog, addImprovement, checkImprovement, terrain}: Props) => {
+const AddImprovementDialog = ({
+  index,
+  endTurn,
+  hideDialog,
+  addImprovement,
+  checkImprovement,
+  terrain,
+}: Props) => {
   const [type, setType] = useState<Type>(ImprovementsArray[0]);
 
   const submitListener = (e: FormEvent) => {
@@ -19,19 +31,24 @@ const AddImprovementDialog = ({index, endTurn, hideDialog, addImprovement, check
     addImprovement(index, type);
     endTurn();
     hideDialog();
-  }
+  };
 
   return (
     <form className="AddImprovementDialog" onSubmit={submitListener}>
+      <h2>Add Improvement</h2>
       <label>Terrain: {terrain}</label>
       <label htmlFor="types-of-improvements">Type: </label>
       <select
         name="types-of-improvements"
         id="types-of-improvements"
         onChange={(e) => {
-          setType(ImprovementsArray[ImprovementsArray.findIndex((item) => {
-              return item.type.toLocaleLowerCase() === e.target.value;
-            })]);
+          setType(
+            ImprovementsArray[
+              ImprovementsArray.findIndex((item) => {
+                return item.type.toLocaleLowerCase() === e.target.value;
+              })
+            ]
+          );
         }}
       >
         <option value="pyramid">Pyramid</option>
@@ -41,16 +58,32 @@ const AddImprovementDialog = ({index, endTurn, hideDialog, addImprovement, check
         <option value="masonry">Masonry</option>
       </select>
       <label htmlFor="benefit">
-        Benefit: <p>{type.benefit.amount} {type.benefit.resource}</p>
+        Benefit:{" "}
+        <p>
+          {type.benefit.amount} {type.benefit.resource}
+        </p>
       </label>
       <label htmlFor="cost">
-        Cost: {type.cost.map((item) => <p>{item.amount} {item.resource}</p>)}
+        Cost:{" "}
+        {type.cost.map((item) => (
+          <p>
+            {item.amount} {item.resource}
+          </p>
+        ))}
       </label>
-      <button type="button" id="cancel" onClick={() => {
-        endTurn();
-        hideDialog();
-      }}>Cancel</button>
-      <button id="add" disabled={checkImprovement(type, "add", 0, index)}>Add</button>
+      <button
+        type="button"
+        id="cancel"
+        onClick={() => {
+          endTurn();
+          hideDialog();
+        }}
+      >
+        Cancel
+      </button>
+      <button id="add" disabled={checkImprovement(type, "add", 0, index)}>
+        Add
+      </button>
     </form>
   );
 };

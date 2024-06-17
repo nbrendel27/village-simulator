@@ -1,3 +1,14 @@
+@keyframes slideDown {
+  from {
+    transform: translate(50%, -50%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(50%, 0);
+    opacity: 1;
+  }
+}
+
 .EditImprovementDialog {
   position: absolute;
   background-color: bisque;
@@ -6,10 +17,11 @@
   top: 275px;
   right: 50%;
   box-sizing: border-box;
-  transform: translateX(50%);
   padding: 10px;
   display: flex;
   flex-direction: column;
+  animation: slideDown 0.5s ease-out forwards;
+  opacity: 0;
 }
 
 .EditImprovementDialog button {
@@ -23,10 +35,22 @@
 }
 
 @media only screen and (min-width: 800px) {
-  .EditImprovementDialog {
-    top: 75%;
+  @keyframes slideRight2 {
+    from {
+      transform: translate(-400%, -100%);
+      opacity: 0;
+    }
+    to {
+      transform: translate(-220%, -100%);
+      opacity: 1;
+    }
+  }
 
-    transform: translateY(-75%);
+  .EditImprovementDialog {
+    height: 480px;
+    top: 100%;
     left: 275px;
+    animation: slideRight2 0.5s ease-out forwards;
+    opacity: 0;
   }
 }

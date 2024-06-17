@@ -8,6 +8,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 50px;
+}
+
+.App h2 {
+  font-size: 17px;
+}
+
+.App .lose-message {
+  position: fixed;
+  top: 300px;
+  padding: 50px;
+  font-size: 30px;
+  background-color: rgb(201, 39, 39);
+  color: rgb(253, 245, 235);
+  border: 2px solid black;
+  z-index: 2;
 }
 
 @media only screen and (min-width: 800px) {
@@ -15,6 +31,5 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
   }
 }

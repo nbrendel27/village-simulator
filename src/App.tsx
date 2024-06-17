@@ -8,7 +8,14 @@ import Improvement from "./models/Improvement";
 import { ImprovementsArray, Type } from "./models/ImprovementsArray";
 import { TerrainImprovements } from "./models/Terrain";
 
-const Terrains = ["Forest", "Desert", "Oasis", "Mountains", "Coast", "Sand Dunes"]
+const Terrains = [
+  "Forest",
+  "Desert",
+  "Oasis",
+  "Mountains",
+  "Coast",
+  "Sand Dunes",
+];
 
 function App() {
   const [people, setPeople] = useState<Resource>({ name: "People", amount: 5 });
@@ -22,7 +29,12 @@ function App() {
 
   const [improvements, setImprovements] = useState<Improvement[]>(
     Array.apply(null, Array(25)).map((el, i) => {
-      return { _id: i, type: "empty", level: 0, terrain:Terrains[Math.floor(Math.random()*6)]};
+      return {
+        _id: i,
+        type: "empty",
+        level: 0,
+        terrain: Terrains[Math.floor(Math.random() * 6)],
+      };
     })
   );
 
@@ -58,7 +70,12 @@ function App() {
   const addImprovement = (index: number, improvement: Type): void => {
     setImprovements([
       ...improvements.slice(0, index),
-      { _id: index, type: improvement.type, level: 1, terrain: improvements[index].terrain},
+      {
+        _id: index,
+        type: improvement.type,
+        level: 1,
+        terrain: improvements[index].terrain,
+      },
       ...improvements.slice(index + 1),
     ]);
 
@@ -89,18 +106,22 @@ function App() {
     level?: number,
     index: number = 0
   ): boolean => {
+    // console.log(improvement);
     if (
       which === "add" &&
       (improvement.cost.find((c) => {
         return c.amount > resourceAmount(c.resource);
-      }) || !TerrainImprovements[TerrainImprovements.findIndex((t) => t.name === improvements[index].terrain)].improvements.find((i) => i === improvement.type)
-    ) ){
-      
+      }) ||
+        !TerrainImprovements[
+          TerrainImprovements.findIndex(
+            (t) => t.name === improvements[index].terrain
+          )
+        ].improvements.find((i) => i === improvement.type))
+    ) {
       return true;
-    }else if(which === "add" && level && level >= 3) {
-        return true;
-    }
-    else if (
+    } else if (which === "add" && level && level >= 3) {
+      return true;
+    } else if (
       which === "down" &&
       improvement.benefit.amount > resourceAmount(improvement.benefit.resource)
     ) {
@@ -128,7 +149,7 @@ function App() {
           _id: index,
           type: improvement.type,
           level: improvements[index].level + 1,
-          terrain: improvements[index].terrain
+          terrain: improvements[index].terrain,
         },
         ...improvements.slice(index + 1),
       ]);
@@ -143,7 +164,7 @@ function App() {
           _id: index,
           type: improvement.type,
           level: improvements[index].level - 1,
-          terrain: improvements[index].terrain
+          terrain: improvements[index].terrain,
         },
         ...improvements.slice(index + 1),
       ]);
@@ -152,7 +173,7 @@ function App() {
         improvement.benefit.amount * -1
       );
       improvement.cost.forEach((c) => {
-        setResource(c.resource, c.amount-1);
+        setResource(c.resource, c.amount - 1);
       });
     } else {
       setResource(
@@ -160,26 +181,36 @@ function App() {
         improvement.benefit.amount * -1 * improvements[index].level
       );
       improvement.cost.forEach((c) => {
-        setResource(c.resource, (c.amount-1) * improvements[index].level);
+        setResource(c.resource, (c.amount - 1) * improvements[index].level);
       });
       setImprovements([
         ...improvements.slice(0, index),
-          { _id: index, type: "empty", level: 0, terrain: improvements[index].terrain },
+        {
+          _id: index,
+          type: "empty",
+          level: 0,
+          terrain: improvements[index].terrain,
+        },
         ...improvements.slice(index + 1),
       ]);
     }
   };
 
   const checkLose = () => {
-    if(ImprovementsArray.find((move) => {
-      return move.benefit.amount <= resourceAmount(move.benefit.resource) || move.cost.find((c) => {
-        return c.amount <= resourceAmount(c.resource);
+    if (
+      ImprovementsArray.find((move) => {
+        return (
+          move.benefit.amount <= resourceAmount(move.benefit.resource) ||
+          move.cost.find((c) => {
+            return c.amount <= resourceAmount(c.resource);
+          })
+        );
       })
-    })) {
+    ) {
       return true;
     }
     return false;
-  }
+  };
 
   return (
     <>
@@ -201,7 +232,14 @@ function App() {
             editImprovement={editImprovement}
             checkImprovement={checkImprovement}
           />
-          <div style={{display: checkLose() ? "none":"block"}} className="lose-message">You Lost!</div>
+          {/* <div
+            style={{ display: checkLose() ? "none" : "block" }}
+            className="lose-message"
+          >
+            try again
+            {/* <p>Try again</p>
+            <button>Try again</button> */}
+          {/* </div> */}
         </main>
       </div>
     </>

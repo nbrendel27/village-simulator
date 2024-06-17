@@ -18,7 +18,7 @@ const EditImprovementDialog = ({
   hideDialog,
   editImprovement,
   checkImprovement,
-  terrain
+  terrain,
 }: Props) => {
   const submitListener = (e: FormEvent) => {
     e.preventDefault();
@@ -29,12 +29,22 @@ const EditImprovementDialog = ({
   const element: Type | undefined = ImprovementsArray.find((item) => {
     return item.type === improvement.type;
   });
-  const canUpgrade = improvement.level > 0 ? checkImprovement(element as Type, "add", improvement.level) : true;
-  const canDowngrade = improvement.level > 0 ? checkImprovement(element as Type, "down") : true;
-  const canRemove = improvement.level > 0 ? checkImprovement(element as Type, "remove", improvement.level) : true;
+  const canUpgrade =
+    improvement.level > 0
+      ? checkImprovement(element as Type, "add", improvement.level)
+      : true;
+  const canDowngrade =
+    improvement.level > 0 ? checkImprovement(element as Type, "down") : true;
+  const canRemove =
+    improvement.level > 0
+      ? checkImprovement(element as Type, "remove", improvement.level)
+      : true;
+
+  // console.log(checkImprovement(element as Type, "add", improvement.level));
 
   return (
     <form className="EditImprovementDialog">
+      <h2>Edit Improvement</h2>
       <label>Terrain: {terrain}</label>
       <label htmlFor="type">
         Type: <p>{element?.type}</p>
@@ -66,21 +76,39 @@ const EditImprovementDialog = ({
       >
         Cancel
       </button>
-      <button disabled={canUpgrade} type="button" onClick={() => {
-        editImprovement(improvement._id, element as Type, "upgrade")
-        endTurn();
-        hideDialog();
-        }}>Upgrade</button>
-      <button disabled={canDowngrade} type="button" onClick={() => {
-        editImprovement(improvement._id, element as Type, "downgrade")
-        endTurn();
-        hideDialog();
-        }}>Downgrade</button>
-      <button disabled={canRemove} type="button" onClick={() => {
-        editImprovement(improvement._id, element as Type, "remove")
-        endTurn();
-        hideDialog();
-        }}>Remove</button>
+      <button
+        disabled={canUpgrade}
+        type="button"
+        onClick={() => {
+          editImprovement(improvement._id, element as Type, "upgrade");
+          endTurn();
+          hideDialog();
+        }}
+      >
+        Upgrade
+      </button>
+      <button
+        disabled={canDowngrade}
+        type="button"
+        onClick={() => {
+          editImprovement(improvement._id, element as Type, "downgrade");
+          endTurn();
+          hideDialog();
+        }}
+      >
+        Downgrade
+      </button>
+      <button
+        disabled={canRemove}
+        type="button"
+        onClick={() => {
+          editImprovement(improvement._id, element as Type, "remove");
+          endTurn();
+          hideDialog();
+        }}
+      >
+        Remove
+      </button>
     </form>
   );
 };

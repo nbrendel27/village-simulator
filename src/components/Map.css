@@ -3,4 +3,5 @@
   flex-wrap: wrap;
   width: 250px;
   position: relative;
+  z-index: 2;
 }
