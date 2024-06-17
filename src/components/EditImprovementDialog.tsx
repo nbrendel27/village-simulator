@@ -9,6 +9,7 @@ interface Props {
   hideDialog(): void;
   editImprovement(index: number, improvement: Type, action: string): void;
   checkImprovement(improvement: Type, which: string, level?: number): boolean;
+  terrain: string;
 }
 
 const EditImprovementDialog = ({
@@ -17,6 +18,7 @@ const EditImprovementDialog = ({
   hideDialog,
   editImprovement,
   checkImprovement,
+  terrain
 }: Props) => {
   const submitListener = (e: FormEvent) => {
     e.preventDefault();
@@ -33,6 +35,7 @@ const EditImprovementDialog = ({
 
   return (
     <form className="EditImprovementDialog">
+      <label>Terrain: {terrain}</label>
       <label htmlFor="type">
         Type: <p>{element?.type}</p>
       </label>

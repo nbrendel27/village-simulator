@@ -8,7 +8,7 @@ interface Props {
     improvements: Improvement[];
     addImprovement(index: number, improvement: Type): void;
     editImprovement(index: number, improvement: Type, action: string): void
-    checkImprovement(improvement: Type, which:string, level?:number): boolean
+    checkImprovement(improvement: Type, which:string, level?:number, index?:number): boolean
 }
 
 

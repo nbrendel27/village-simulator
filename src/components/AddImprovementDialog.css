@@ -23,3 +23,11 @@
 .AddImprovementDialog p {
   text-align: center;
 }
+
+@media only screen and (min-width: 800px) {
+  .AddImprovementDialog {
+    top: 100%;
+    transform: translateY(-100%);
+    left: 275px;
+  }
+}

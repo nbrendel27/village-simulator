@@ -6,6 +6,9 @@ import Map from "./components/Map";
 import Resource from "./models/Resource";
 import Improvement from "./models/Improvement";
 import { ImprovementsArray, Type } from "./models/ImprovementsArray";
+import { TerrainImprovements } from "./models/Terrain";
+
+const Terrains = ["Forest", "Desert", "Oasis", "Mountains", "Coast", "Sand Dunes"]
 
 function App() {
   const [people, setPeople] = useState<Resource>({ name: "People", amount: 5 });
@@ -19,7 +22,7 @@ function App() {
 
   const [improvements, setImprovements] = useState<Improvement[]>(
     Array.apply(null, Array(25)).map((el, i) => {
-      return { _id: i, type: "empty", level: 0 };
+      return { _id: i, type: "empty", level: 0, terrain:Terrains[Math.floor(Math.random()*6)]};
     })
   );
 
@@ -55,7 +58,7 @@ function App() {
   const addImprovement = (index: number, improvement: Type): void => {
     setImprovements([
       ...improvements.slice(0, index),
-      { _id: index, type: improvement.type, level: 1 },
+      { _id: index, type: improvement.type, level: 1, terrain: improvements[index].terrain},
       ...improvements.slice(index + 1),
     ]);
 
@@ -83,14 +86,15 @@ function App() {
   const checkImprovement = (
     improvement: Type,
     which: string,
-    level?: number
+    level?: number,
+    index: number = 0
   ): boolean => {
     if (
       which === "add" &&
-      improvement.cost.find((c) => {
+      (improvement.cost.find((c) => {
         return c.amount > resourceAmount(c.resource);
-      })
-    ) {
+      }) || !TerrainImprovements[TerrainImprovements.findIndex((t) => t.name === improvements[index].terrain)].improvements.find((i) => i === improvement.type)
+    ) ){
       
       return true;
     }else if(which === "add" && level && level >= 3) {
@@ -124,6 +128,7 @@ function App() {
           _id: index,
           type: improvement.type,
           level: improvements[index].level + 1,
+          terrain: improvements[index].terrain
         },
         ...improvements.slice(index + 1),
       ]);
@@ -138,6 +143,7 @@ function App() {
           _id: index,
           type: improvement.type,
           level: improvements[index].level - 1,
+          terrain: improvements[index].terrain
         },
         ...improvements.slice(index + 1),
       ]);
@@ -158,7 +164,7 @@ function App() {
       });
       setImprovements([
         ...improvements.slice(0, index),
-        { _id: index, type: "empty", level: 0 },
+          { _id: index, type: "empty", level: 0, terrain: improvements[index].terrain },
         ...improvements.slice(index + 1),
       ]);
     }

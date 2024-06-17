@@ -4,6 +4,7 @@ import "./Tile.css";
 import AddImprovementDialog from "./AddImprovementDialog";
 import EditImprovementDialog from "./EditImprovementDialog";
 import { Type } from "../models/ImprovementsArray";
+import { TerrainColors } from "../models/Terrain";
 
 interface Props {
   improvement: Improvement;
@@ -12,7 +13,7 @@ interface Props {
   endTurn(): void;
   addImprovement(index: number, improvement: Type): void;
   editImprovement(index: number, improvement: Type, action: string): void;
-  checkImprovement(improvement: Type, which: string, level?: number): boolean;
+  checkImprovement(improvement: Type, which: string, level?: number, index?: number): boolean;
 }
 
 const Tile = ({
@@ -35,9 +36,14 @@ const Tile = ({
     }
   };
 
+  const colorTile = () => {
+    return TerrainColors.find((pair) => pair.name === improvement.terrain)?.color
+  }
+
   return (
     <div
       className="Tile"
+      style={{backgroundColor: colorTile()}}
       onClick={() => {
         if (checkTurn()) {
           return;
@@ -66,6 +72,7 @@ const Tile = ({
           hideDialog={hideDialog}
           addImprovement={addImprovement}
           checkImprovement={checkImprovement}
+          terrain={improvement.terrain}
         />
       </div>
       <div className="Edit" style={{ display: edit ? "block" : "none" }}>
@@ -75,6 +82,7 @@ const Tile = ({
           hideDialog={hideDialog}
           editImprovement={editImprovement}
           checkImprovement={checkImprovement}
+          terrain={improvement.terrain}
         />
       </div>
     </div>

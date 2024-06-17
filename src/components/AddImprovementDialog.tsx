@@ -7,10 +7,11 @@ interface Props {
   endTurn(): void;
   hideDialog(): void;
   addImprovement(index: number, improvement: Type): void;
-  checkImprovement(improvement: Type, which:string): boolean
+  checkImprovement(improvement: Type, which:string, level?:number, index?: number): boolean
+  terrain: string;
 }
 
-const AddImprovementDialog = ({index, endTurn, hideDialog, addImprovement, checkImprovement}: Props) => {
+const AddImprovementDialog = ({index, endTurn, hideDialog, addImprovement, checkImprovement, terrain}: Props) => {
   const [type, setType] = useState<Type>(ImprovementsArray[0]);
 
   const submitListener = (e: FormEvent) => {
@@ -22,6 +23,7 @@ const AddImprovementDialog = ({index, endTurn, hideDialog, addImprovement, check
 
   return (
     <form className="AddImprovementDialog" onSubmit={submitListener}>
+      <label>Terrain: {terrain}</label>
       <label htmlFor="types-of-improvements">Type: </label>
       <select
         name="types-of-improvements"
@@ -48,7 +50,7 @@ const AddImprovementDialog = ({index, endTurn, hideDialog, addImprovement, check
         endTurn();
         hideDialog();
       }}>Cancel</button>
-      <button id="add" disabled={checkImprovement(type, "add")}>Add</button>
+      <button id="add" disabled={checkImprovement(type, "add", 0, index)}>Add</button>
     </form>
   );
 };
