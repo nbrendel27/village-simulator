@@ -7,6 +7,7 @@ import Resource from "./models/Resource";
 import Improvement from "./models/Improvement";
 import { ImprovementsArray, Type } from "./models/ImprovementsArray";
 import { TerrainImprovements } from "./models/Terrain";
+import Rules from "./components/Rules";
 
 const Terrains = [
   "Forest",
@@ -235,6 +236,7 @@ function App() {
           <h1>Ancient Village Simulator</h1>
         </header>
         <main>
+          <Rules />
           <ResourcesView
             people={people}
             papyrus={papyrus}
@@ -249,7 +251,7 @@ function App() {
             checkImprovement={checkImprovement}
           />
           <div
-            style={{ display: checkLose() ? "block" : "none" }}
+            style={{ display: !checkLose() ? "block" : "none" }}
             className="lose-message"
           >
             <form>

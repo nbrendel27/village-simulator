@@ -16,7 +16,7 @@ const ResourcesView = ({ people, papyrus, fish, bricks, water }: Props) => {
       <thead>
         <tr>
           <th>Resource</th>
-          <th>Availible</th>
+          <th>Available</th>
         </tr>
       </thead>
       <tbody>
