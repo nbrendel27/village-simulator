@@ -28,6 +28,7 @@ const Rules = () => {
         <li>You could, at any point, encounter an alien invasion. 
           The Aliens will take 0-5 of your resources on each invasion. </li>
         <li>If there is no possible moves left, you lose the game.</li>
+        <li>If you obtain 20 people, you win the game.</li>
       </ol>
     </div>
   );
