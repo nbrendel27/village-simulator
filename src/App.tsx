@@ -31,11 +31,11 @@ function App() {
   const [people, setPeople] = useState<Resource>({ name: "People", amount: 5 });
   const [papyrus, setPapyrus] = useState<Resource>({
     name: "Papyrus",
-    amount: 5,
+    amount: 10,
   });
-  const [fish, setFish] = useState<Resource>({ name: "Fish", amount: 1 });
-  const [bricks, setBricks] = useState<Resource>({ name: "Bricks", amount: 5 });
-  const [water, setWater] = useState<Resource>({ name: "Water", amount: 5 });
+  const [fish, setFish] = useState<Resource>({ name: "Fish", amount: 2 });
+  const [bricks, setBricks] = useState<Resource>({ name: "Bricks", amount: 10 });
+  const [water, setWater] = useState<Resource>({ name: "Water", amount: 10 });
 
   const [improvements, setImprovements] = useState<Improvement[]>(
     Array.apply(null, Array(25)).map((el, i) => {
@@ -217,9 +217,9 @@ function App() {
         );
       })
     ) {
-      return true;
+      return false;
     }
-    return false;
+    return true;
   };
   // const checkLose = () => {
   //   return !improvements.find((tile) => {
@@ -237,6 +237,13 @@ function App() {
   //     }
   //   })
   // }
+  const checkWin = () => {
+    if(people.amount >= 20) {
+      return true;
+    }else {
+      return false;
+    }
+  }
 
   return (
     <>
@@ -245,7 +252,7 @@ function App() {
           <h1>Ancient Village Simulator</h1>
         </header>
         <main>
-          <AlienInvasion setResource={setResource} resourceAmount = {resourceAmount} resources={Resources}/>
+          <AlienInvasion setResource={setResource} resourceAmount = {resourceAmount} resources={Resources} checkWin={checkWin} checkLose={checkLose}/>
           <Rules />
           <ResourcesView
             people={people}
@@ -261,12 +268,21 @@ function App() {
             checkImprovement={checkImprovement}
           />
           <div
-            style={{ display: !checkLose() ? "block" : "none" }}
+            style={{ display: checkLose() ? "block" : "none" }}
             className="lose-message"
           >
             <form>
-              <p>Try again</p>
+              <p>You Lose!</p>
               <button>Try again</button>
+            </form>
+          </div>
+          <div
+            style={{ display: checkWin() ? "block" : "none" }}
+            className="win-message"
+          >
+            <form>
+              <p>You Won!</p>
+              <button>Play again</button>
             </form>
           </div>
         </main>

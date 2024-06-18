@@ -8,7 +8,7 @@ const Rules = () => {
   };
   return (
     <div className="Rules">
-      <button onClick={displayRules}>See the Rules</button>
+      <button onClick={displayRules}>{hidden ? "See the" : "Hide"} Rules</button>
       <ol className={hidden ? "hidden" : ""}>
         <li>Click on a cell to choose your improvement.</li>
         <li>
@@ -25,6 +25,8 @@ const Rules = () => {
           improvement. When you downgrade or remove, you receive one resource
           less than it cost you to purchase it.
         </li>
+        <li>You could, at any point, encounter an alien invasion. 
+          The Aliens will take 0-5 of your resources on each invasion. </li>
         <li>If there is no possible moves left, you lose the game.</li>
       </ol>
     </div>
